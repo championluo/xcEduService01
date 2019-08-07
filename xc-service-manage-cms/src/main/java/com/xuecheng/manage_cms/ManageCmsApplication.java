@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EntityScan(value="com.xuecheng.framework.domain.cms")
 @ComponentScan("com.xuecheng.api.cms")
+@ComponentScan("com.xuecheng.api.config")
 @ComponentScan("com.xuecheng.manage_cms")
 public class ManageCmsApplication {
     public static void main(String[] args) {
