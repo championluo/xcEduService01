@@ -4,10 +4,7 @@ import com.xuecheng.api.cms.CmsPageControllerApi;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
-import com.xuecheng.framework.model.response.CommonCode;
-import com.xuecheng.framework.model.response.QueryResponseResult;
-import com.xuecheng.framework.model.response.QueryResult;
-import com.xuecheng.framework.model.response.ResultCode;
+import com.xuecheng.framework.model.response.*;
 import com.xuecheng.manage_cms.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,5 +48,23 @@ public class CmsPageController implements CmsPageControllerApi {
         return add;
     }
 
+    @Override
+    @GetMapping("/get/{id}")
+    public CmsPage findById(@PathVariable("id") String id) {
+        CmsPage cmsPage = pageService.findById(id);
+        return cmsPage;
+    }
 
+    @Override
+    @PutMapping("/edit/{id}") //这里使用put方法来更新表单,表单中的id通过url来传递,cmspage对象通过RequestBody获取
+    public CmsPageResult edit(@PathVariable("id") String id,@RequestBody CmsPage cmsPage) {
+        CmsPageResult result = pageService.update(id, cmsPage);
+        return result;
+    }
+
+    @Override
+    @DeleteMapping("/del/{id}")
+    public ResponseResult delete(@PathVariable  String id) {
+        return pageService.delete(id);
+    }
 }

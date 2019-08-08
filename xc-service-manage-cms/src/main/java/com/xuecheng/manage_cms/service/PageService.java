@@ -6,11 +6,14 @@ import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
+import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms.dao.CmsPageRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class PageService {
@@ -73,5 +76,50 @@ public class PageService {
         return pageResult;
     }
 
+    public CmsPage findById(String id) {
+        Optional<CmsPage> byId = cmsPageRepository.findById(id);
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        return null;
+    }
 
+    public CmsPageResult update(String id,CmsPage cmsPage) {
+        CmsPage page = this.findById(id);
+
+        if (page != null) {
+            //准备更新数据
+            //设置要修改的数据
+            //更新模板id
+            page.setTemplateId(cmsPage.getTemplateId());
+            //更新所属站点
+            page.setSiteId(cmsPage.getSiteId());
+            //更新页面别名
+            page.setPageAliase(cmsPage.getPageAliase());
+            //更新页面名称
+            page.setPageName(cmsPage.getPageName());
+            //更新访问路径
+            page.setPageWebPath(cmsPage.getPageWebPath());
+            //更新物理路径
+            page.setPagePhysicalPath(cmsPage.getPagePhysicalPath());
+
+            //更新成功后返回更新的字段
+            CmsPage save = cmsPageRepository.save(page);
+            if (save != null) {
+                return new CmsPageResult(CommonCode.SUCCESS,save);
+            }
+        }
+        //返回失败
+        return new CmsPageResult(CommonCode.FAIL,null);
+    }
+
+    public ResponseResult delete(String id) {
+        CmsPage page = this.findById(id);
+
+        if (page != null) {
+            cmsPageRepository.deleteById(id);
+            return new ResponseResult(CommonCode.SUCCESS);
+        }
+        return new ResponseResult(CommonCode.FAIL);
+    }
 }
