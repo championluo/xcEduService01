@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -62,5 +61,10 @@ public class CmsRepositoryTest {
             cmsPage.setPageName("测试页面2");
             cmsPageRepository.save(cmsPage);
         }
+    }
+
+    @Test
+    public void testAbc() {
+        System.out.println(CmsRepositoryTest.class);
     }
 }

@@ -7,11 +7,7 @@ import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.*;
 import com.xuecheng.manage_cms.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/cms/page")
@@ -67,4 +63,11 @@ public class CmsPageController implements CmsPageControllerApi {
     public ResponseResult delete(@PathVariable  String id) {
         return pageService.delete(id);
     }
+
+    @Override
+    @PostMapping("/postPage/{pageId}")
+    public ResponseResult post(@PathVariable("pageId") String pageId) {
+        return pageService.postPage(pageId);
+    }
+
 }
